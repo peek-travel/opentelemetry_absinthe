@@ -126,6 +126,7 @@ defmodule OpentelemetryAbsinthe.Instrumentation do
     Tracer.end_span()
 
     restore_parent_ctx()
+    Tracer.update_name(span_name)
     :ok
   end
 
@@ -147,7 +148,7 @@ defmodule OpentelemetryAbsinthe.Instrumentation do
   end
 
   defp get_operation_name(%{blueprint: %Blueprint{} = blueprint}) do
-    blueprint |> Absinthe.Blueprint.current_operation() |> Kernel.||(%{}) |> Map.get(:name)
+    blueprint |> get_graphql_selections() |> List.first()
   end
 
   defp span_name(_, _, name) when is_binary(name), do: name
