@@ -147,8 +147,8 @@ defmodule OpentelemetryAbsinthe.Instrumentation do
     blueprint |> Absinthe.Blueprint.current_operation() |> Kernel.||(%{}) |> Map.get(:type)
   end
 
-  defp get_operation_name(%{blueprint: %Blueprint{} = blueprint}) do
-    blueprint |> get_graphql_selections() |> List.first()
+  defp get_operation_name(data) do
+    data |> get_graphql_selections() |> List.first()
   end
 
   defp span_name(_, _, name) when is_binary(name), do: name
